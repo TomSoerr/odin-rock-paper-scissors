@@ -8,6 +8,7 @@ function createDivElement(className, text, id = '') {
     return div;
 }
 
+// move the container to the left and delete it
 function deleteAnimation(current, next) {
     current.animate([
             { transform: 'translateX(0)' },
@@ -24,6 +25,7 @@ function deleteAnimation(current, next) {
 }
 
 function wantToPlay() {
+    // build the ui for the game start
     const containerWantToPlay = createDivElement('container-popup', '');
     containerWantToPlay.appendChild(createDivElement('', 'Want to play some Rock, Paper, Scissors?'));
 
@@ -34,6 +36,7 @@ function wantToPlay() {
 
     body.appendChild(containerWantToPlay);
 
+    // add event listeners to the Yes and No buttons
     document.querySelector('.container-buttons').addEventListener('click', (event) => {
         if (event.target.classList.contains('btn-green')) {
             event.stopPropagation();
@@ -47,6 +50,7 @@ function wantToPlay() {
 }
 
 function showRules() {
+    // build the ui for the rules
     const containerShowRules = createDivElement('container-popup', '');
     containerShowRules.appendChild(createDivElement('', 'First to 5 wins!'));
     containerShowRules.appendChild(createDivElement('', 'Rock > Scissors > Paper'));
@@ -63,10 +67,15 @@ function showRules() {
 }
 
 function game() {
-    console.log('game');
+    // build the ui for the game
     const containerPlayers = createDivElement('container-players', '');
     containerPlayers.appendChild(createDivElement('', 'Player', 'player'));
     containerPlayers.appendChild(createDivElement('', 'Computer', 'computer'));
+
+    const containerPlayerRound = createDivElement('container-players', '');
+    containerPlayerRound.appendChild(createDivElement('', '', 'round-player'));
+    containerPlayerRound.appendChild(createDivElement('', '', 'round-computer'));
+
 
     const containerCounter = createDivElement('container-counter', '');
     for (let i = 1; i < 6; i++) {
@@ -83,14 +92,85 @@ function game() {
 
     const containerGame = createDivElement('container-game', '');
     containerGame.appendChild(containerPlayers);
+    containerGame.appendChild(containerPlayerRound);
     containerGame.appendChild(containerCounter);
     containerGame.appendChild(containerSelectItems);
 
     body.appendChild(containerGame);
 
-    document.querySelector('#player-2').classList.add('red');
+    // add the game logic
+    let computerCounter = 0;
+    let playerCounter = 0;
+
+    function computerPlay() {
+        return ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)]
+    }
+
+    function firstLetterUp(str) {
+        return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase()
+    }
+
+    function updateCounterAndCheckWinner(value) {
+        if (value === null) {
+            return;
+        } else if (value === true) {
+            playerCounter++;
+            console.log('playerCounter', playerCounter);
+            document.querySelector(`#player-${playerCounter}`).classList.add('green');
+        } else if (value === false) {
+            computerCounter++;
+            document.querySelector(`#computer-${computerCounter}`).classList.add('red');
+        } 
+        if (playerCounter === 5 || computerCounter === 5) {
+            if (playerCounter > computerCounter) {
+                console.log('Player wins!');
+            } else if (computerCounter > playerCounter) {
+                console.log('Computer wins!');
+            } 
+            deleteAnimation(containerGame, askToPlayAgain);
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        switch (true) {    
+            case playerSelection === computerSelection:
+                return null;
+            case playerSelection === 'rock' && computerSelection === 'paper':
+            case playerSelection === 'paper' && computerSelection === 'scissors':
+            case playerSelection === 'scissors' && computerSelection === 'rock':
+                return false;
+    
+            case playerSelection === 'rock' && computerSelection === 'scissors':
+            case playerSelection === 'paper' && computerSelection === 'rock':
+            case playerSelection === 'scissors' && computerSelection === 'paper':
+                return true;
+        }  
+    }
+
+    function itemChoice(event) {
+        switch (event.target.id) {
+            case 'rock':
+                updateCounterAndCheckWinner(playRound('rock', computerPlay()));
+                break;
+            case 'paper':
+                updateCounterAndCheckWinner(playRound('paper', computerPlay()));
+                break;
+            case 'scissors':
+                updateCounterAndCheckWinner(playRound('scissors', computerPlay()));
+                break;
+        }
+        event.stopPropagation();
+    }
+
+    containerSelectItems.addEventListener('click', itemChoice);
 
 }
+
+function askToPlayAgain() {
+    console.log('askToPlayAgain');
+}
 game();
+
+
 
 
