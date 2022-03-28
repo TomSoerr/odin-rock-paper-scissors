@@ -1,67 +1,123 @@
-// computer picks random item
+let computerCounter;
+let playerCounter;
+let roundCounter;
+
+const computerCounterSpan = document.querySelector('#computer-counter');
+const playerCounterSpan = document.querySelector('#player-counter');
+const containerEndResult = document.querySelector('#container-end-result');
+const containerBtn = document.querySelector('#container-btn');
+
+
 function computerPlay() {
     return ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)]
 }
 
-// make the first letter uppercase and the rest lowercase independent of the input
 function firstLetterUp(str) {
     return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase()
 }
 
-// check which player win's or if it's undecided
-// return a message with the winner
+function addElementWithText(text) {
+    const newElement = document.createElement('p');
+    const newNode = document.createTextNode(`${text}`);
+    newElement.appendChild(newNode);
+    containerEndResult.appendChild(newElement);
+}
+
+function deleteAllChilds() {
+    while (containerEndResult.firstChild) {
+        containerEndResult.removeChild(containerEndResult.lastChild);
+    }
+}
+
+
+function game() {
+    roundCounter = 0;
+    playerCounter = 0;
+    computerCounter = 0;
+
+    document.querySelector('#computer-counter').textContent = computerCounter;
+    document.querySelector('#player-counter').textContent = playerCounter;
+
+    deleteAllChilds();
+    addElementWithText('Let\'s play Rock, Paper, Scissors!');
+    addElementWithText('Press one of the buttons to start the game!');
+
+    containerBtn.addEventListener('click', submitChoice);
+}
+
+function submitChoice(event) {
+    switch (event.target.id) {
+        case 'rock':
+            updateCounterAndCheckWinner(playRound('rock', computerPlay()));
+            break;
+        case 'paper':
+            updateCounterAndCheckWinner(playRound('paper', computerPlay()));
+            break;
+        case 'scissors':
+            updateCounterAndCheckWinner(playRound('scissors', computerPlay()));
+            break;
+    }
+    event.stopPropagation();
+}
+
 function playRound(playerSelection, computerSelection) {
     switch (true) {
         case playerSelection === computerSelection:
-            return [null, `Nobody Win\'s this Round. ${firstLetterUp(computerSelection)} and ${firstLetterUp(playerSelection)}`];
+            deleteAllChilds();
+            addElementWithText(`It's a draw! You both chose ${firstLetterUp(playerSelection)}`);
+            return null;
+
         case playerSelection === 'rock' && computerSelection === 'paper':
         case playerSelection === 'paper' && computerSelection === 'scissors':
         case playerSelection === 'scissors' && computerSelection === 'rock':
-            return [false, `You Lose this Round! ${firstLetterUp(computerSelection)} beats ${firstLetterUp(playerSelection)}`];
+            deleteAllChilds();
+            addElementWithText('You lost!');
+            addElementWithText(`You chose ${firstLetterUp(playerSelection)}, 
+                    computer chose ${firstLetterUp(computerSelection)}`);
+            return false;
+
         case playerSelection === 'rock' && computerSelection === 'scissors':
         case playerSelection === 'paper' && computerSelection === 'rock':
         case playerSelection === 'scissors' && computerSelection === 'paper':
-            return [true, `You Win this Round! ${firstLetterUp(playerSelection)} beats ${firstLetterUp(computerSelection)}`];
-        default:
-            console.error('Something went wrong in the playRound function');
+            deleteAllChilds();
+            addElementWithText('You won!');
+            addElementWithText(`You chose ${firstLetterUp(playerSelection)},
+                    computer chose ${firstLetterUp(computerSelection)}`);
+            return true;
     }  
 }
 
-// call for user input and call computerPlay()
-// iterate 5 times means 5 rounds
-function game() {
-    let computerCounter = 0;
-    let playerCounter = 0;
-
-    // group the rounds together
-    console.group('Rounds');
-    for (let x = 0; x < 5; x++) {
-        const result = playRound(prompt(`Rock Pager Scissors\r\nRound: ${x + 1}`).toLowerCase(), computerPlay());
-        console.log(result[1]);
-        if (result[0] === null) {
-            continue;
-        } else if (result[0]) {
-            playerCounter++;
-        } else if (!(result[0])) {
-            computerCounter++;
-        } else {
-            console.error('Something went wrong in the game function\'s for loop')
-        }
-    }
-    console.groupEnd('Rounds')
-
-    // announce the winner of the 5 rounds
-    if (playerCounter > computerCounter) {
-        console.log(`You are the Winner! ${playerCounter} > ${computerCounter}`)
-    } else if (computerCounter > playerCounter) {
-        console.log(`You are the Looser! ${playerCounter} < ${computerCounter}`)
-    } else if (playerCounter === computerCounter) {
-        console.log(`Nobody is the Winner! ${playerCounter} = ${computerCounter}`)
+function updateCounterAndCheckWinner(value) {
+    if (value === true) {
+        playerCounter++;
+        playerCounterSpan.textContent = playerCounter;
+    } else if (value === false) {
+        computerCounter++;
+        computerCounterSpan.textContent = computerCounter;
     } else {
-        console.error('Something went wrong in the game function')
+        return;
     }
+    if (playerCounter === 5 || computerCounter === 5) {
+        containerBtn.removeEventListener('click', submitChoice);
+        deleteAllChilds();
+        if (playerCounter > computerCounter) {
+            addElementWithText('You are the Winner!');
+        } else if (computerCounter > playerCounter) {
+            addElementWithText('The Computer is the Winner!');
+        } 
+        
+        addElementWithText('Press r/R to restart the game!');
 
+        document.addEventListener('keydown', event => {
+            switch (event.key) {
+                case 'r':
+                case 'R':
+                    game();
+                    break;
+            }
+        }
+        );
+    }
 }
 
-// call the game function and start the game something
 game();
