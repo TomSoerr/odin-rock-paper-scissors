@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+    --background-color: #e4e9fe;
+    --highlight-color: #ccd6ff;
+    --over-color: #fff2cc;
+    --green: #d9ffdf;
+    --red: #ffccd7;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+}
+
+.container-popup {
+    background-color: var(--highlight-color);
+    width: 60%;
+    height: 30%;
+    padding: 60px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    animation: slide-in 0.5s ease-out;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(130%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+    
+.container-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button {
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 10px;
+    width: 25%;
+    text-align: center;
+    transition: ease-out, 0.5s;
+} 
+
+.button:hover {
+    transform: scale(1.1);
+}
+
+.btn-red {
+    background-color: var(--red);
+}
+
+.btn-green {
+    background-color: var(--green);
+}
+
+.container-game {
+    width: 80%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    background-color: var(--highlight-color);
+    padding: 60px;
+
+}
+
+.container-players,
+.container-counter,
+.container-weapons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.container-players {
+    justify-content: space-evenly;
+}
+
+#player,
+#computer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+    width: 180px;
+    border-radius: 10px;
+}
+#player {
+    background-color: var(--green);
+}
+
+#computer {
+    background-color: var(--red);
+}
+
+.container-counter {
+    justify-content: stretch;
+    border: var(--background-color) solid 3px;
+    border-radius: 33px;
+}
+
+#player-1,
+#player-2,
+#player-3,
+#player-4,
+#player-5,
+#computer-1,
+#computer-2,
+#computer-3,
+#computer-4,
+#computer-5 {
+    flex: 1 1 0;
+    height: 60px;
+}
+
+#player-1 {
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
+#computer-1 {
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
+}
+.container-weapons {
+    justify-content: space-around;
+}
+
+.weapon {
+    background-color: var(--over-color);
+    border-radius: 10px;
+    width: 180px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: ease-out, 0.5s;
+    cursor: pointer;
+
+}
+
+.weapon:hover {
+    transform: scale(1.1);
+}
+
+.red {
+    background-color: var(--red);
+    animation: add 0.5s ease-out;
+}
+
+.green {
+    background-color: var(--green);
+    animation: add 0.5s ease-out;
+}
+
+@keyframes add {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+    
+}
