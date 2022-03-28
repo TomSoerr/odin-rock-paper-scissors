@@ -74,7 +74,6 @@ body {
 
 .container-game {
     width: 80%;
-    height: 40%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -106,6 +105,7 @@ body {
     width: 180px;
     border-radius: 10px;
 }
+
 #player {
     background-color: var(--green);
 }
@@ -114,10 +114,21 @@ body {
     background-color: var(--red);
 }
 
+#round-player,
+#round-computer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 180px;
+    border-radius: 10px;
+}
+
 .container-counter {
     justify-content: stretch;
     border: var(--background-color) solid 3px;
     border-radius: 33px;
+    margin-bottom: 30px;
 }
 
 #player-1,
@@ -144,7 +155,7 @@ body {
     border-top-right-radius: 30px;
 }
 .container-weapons {
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .weapon {
@@ -179,7 +190,7 @@ body {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
     100% {
         transform: scale(1);
