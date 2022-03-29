@@ -3,6 +3,7 @@
 :root {
     --background-color: #e4e9fe;
     --highlight-color: #ccd6ff;
+    --darker-highlight-color: #bcc8ff;
     --over-color: #fff2cc;
     --green: #d9ffdf;
     --red: #ffccd7;
@@ -32,6 +33,8 @@ body {
     justify-content: space-between;
     align-items: center;
     animation: slide-in 0.5s ease-out;
+    border: var(--darker-highlight-color) solid 5px;
+    box-shadow: 8px 8px 0px 8px var(--darker-highlight-color);
 }
 
 @keyframes slide-in {
@@ -57,11 +60,19 @@ body {
     padding: 10px;
     width: 25%;
     text-align: center;
-    transition: ease-out, 0.5s;
+    transition: 0.3s;
+    box-shadow: 2px 2px 0px 2px var(--background-color);
+    position: relative;
 } 
 
+.button:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
 .button:hover {
-    transform: scale(1.1);
+    transform: translate(-6px, -6px);
+    box-shadow: 8px 8px 0px 2px var(--background-color);
 }
 
 .btn-red {
@@ -81,7 +92,8 @@ body {
     border-radius: 10px;
     background-color: var(--highlight-color);
     padding: 60px;
-
+    border: var(--darker-highlight-color) solid 5px;
+    box-shadow: 8px 8px 0px 8px var(--darker-highlight-color);
 }
 
 .container-players,
@@ -119,16 +131,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    height: 90px;
     width: 180px;
     border-radius: 10px;
-}
+}  
 
 .container-counter {
     justify-content: stretch;
-    border: var(--background-color) solid 3px;
-    border-radius: 33px;
-    margin-bottom: 30px;
+    border: var(--background-color) solid 5px;
+    border-radius: 35px;
+    margin-bottom: 60px;
 }
 
 #player-1,
@@ -154,25 +166,43 @@ body {
     border-bottom-right-radius: 30px;
     border-top-right-radius: 30px;
 }
+
 .container-weapons {
     justify-content: space-evenly;
 }
 
 .weapon {
-    background-color: var(--over-color);
+    background-color: var(--darker-highlight-color);
     border-radius: 10px;
     width: 180px;
     height: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: ease-out, 0.5s;
+    transition: 0.3s;
     cursor: pointer;
+    box-shadow: 2px 2px 0px 2px var(--background-color);
+}
 
+.weapon,
+.button {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
 }
 
 .weapon:hover {
-    transform: scale(1.1);
+    transform: translate(-6px, -6px);
+    box-shadow: 8px 8px 0px 2px var(--background-color);
+}
+
+.weapon:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
 }
 
 .red {
@@ -194,6 +224,5 @@ body {
     }
     100% {
         transform: scale(1);
-    }
-    
+    } 
 }

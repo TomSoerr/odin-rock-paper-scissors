@@ -9,7 +9,7 @@ function createDivElement(className, text, id = '') {
 }
 
 // move the container to the left and delete it
-function deleteAnimation(current, next) {
+function deleteAnimation(current, next, optional = '') {
     current.animate([
             { transform: 'translateX(0)' },
             { transform: 'translateX(-130%)', opacity: '0' }
@@ -20,8 +20,12 @@ function deleteAnimation(current, next) {
             });
     setTimeout(() => {
         current.remove();
-        next();
+        (optional) ? next(optional) : next();
     }, 500);
+}
+
+function ifNot() {
+    window.open("https://github.com/TomSoerr/odin-rock-paper-scissors","_self")
 }
 
 function wantToPlay() {
@@ -37,14 +41,13 @@ function wantToPlay() {
     body.appendChild(containerWantToPlay);
 
     // add event listeners to the Yes and No buttons
-    document.querySelector('.container-buttons').addEventListener('click', (event) => {
+    document.querySelector('.container-buttons').addEventListener('mouseup', (event) => {
         if (event.target.classList.contains('btn-green')) {
             event.stopPropagation();
             deleteAnimation(containerWantToPlay, showRules);
         } else if (event.target.classList.contains('btn-red')) {
             event.stopPropagation();
-            deleteBody();
-            window.open("https://youtu.be/dQw4w9WgXcQ","_self")
+            deleteAnimation(containerWantToPlay, ifNot);
         }
     });
 }
@@ -58,7 +61,7 @@ function showRules() {
 
     body.appendChild(containerShowRules);
     
-    document.querySelector('.button.btn-green').addEventListener('click', (event) => {
+    document.querySelector('.button.btn-green').addEventListener('mouseup', (event) => {
         if (event.target.classList.contains('btn-green')) {
             event.stopPropagation();
             deleteAnimation(containerShowRules, game);
@@ -101,6 +104,8 @@ function game() {
     // add the game logic
     let computerCounter = 0;
     let playerCounter = 0;
+    const roundPlayer = document.querySelector('#round-player');
+    const roundComputer = document.querySelector('#round-computer');
 
     function computerPlay() {
         return ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)]
@@ -115,7 +120,6 @@ function game() {
             return;
         } else if (value === true) {
             playerCounter++;
-            console.log('playerCounter', playerCounter);
             document.querySelector(`#player-${playerCounter}`).classList.add('green');
         } else if (value === false) {
             computerCounter++;
@@ -123,15 +127,34 @@ function game() {
         } 
         if (playerCounter === 5 || computerCounter === 5) {
             if (playerCounter > computerCounter) {
-                console.log('Player wins!');
+                deleteAnimation(containerGame, askToPlayAgain, 'You won!');
             } else if (computerCounter > playerCounter) {
-                console.log('Computer wins!');
+                deleteAnimation(containerGame, askToPlayAgain, 'You lost!');
             } 
-            deleteAnimation(containerGame, askToPlayAgain);
+
         }
     }
 
     function playRound(playerSelection, computerSelection) {
+        roundPlayer.textContent = firstLetterUp(playerSelection);
+        roundPlayer.animate([
+            { transform: 'scale(1.1)', opacity: '0' },
+            { transform: 'scale(1.3)' },
+            { transform: 'scale(1)' }
+            ], {
+            duration: 500,
+            easing: 'ease-out'
+            });
+        roundComputer.textContent = firstLetterUp(computerSelection);
+        roundComputer.animate([
+            { transform: 'scale(1.1)', opacity: '0' },
+            { transform: 'scale(1.3)' },
+            { transform: 'scale(1)'}
+            ], {
+            duration: 500,
+            easing: 'ease-out'
+            });
+
         switch (true) {    
             case playerSelection === computerSelection:
                 return null;
@@ -150,27 +173,46 @@ function game() {
     function itemChoice(event) {
         switch (event.target.id) {
             case 'rock':
+                event.stopPropagation();
                 updateCounterAndCheckWinner(playRound('rock', computerPlay()));
+                event.stopPropagation();
                 break;
             case 'paper':
                 updateCounterAndCheckWinner(playRound('paper', computerPlay()));
+                event.stopPropagation();
                 break;
             case 'scissors':
                 updateCounterAndCheckWinner(playRound('scissors', computerPlay()));
                 break;
         }
-        event.stopPropagation();
     }
 
-    containerSelectItems.addEventListener('click', itemChoice);
-
+    containerSelectItems.addEventListener('mouseup', itemChoice);
 }
 
-function askToPlayAgain() {
-    console.log('askToPlayAgain');
+function askToPlayAgain(message) {
+    const containerWantToPlay = createDivElement('container-popup', '');
+    containerWantToPlay.appendChild(createDivElement('', message));
+    containerWantToPlay.appendChild(createDivElement('', 'Want to play again?'));
+
+    const containerButtons = createDivElement('container-buttons', '');
+    containerButtons.appendChild(createDivElement('button btn-green', 'Yes'));
+    containerButtons.appendChild(createDivElement('button btn-red', 'No'));
+    containerWantToPlay.appendChild(containerButtons);
+
+    body.appendChild(containerWantToPlay);
+
+    // add event listeners to the Yes and No buttons
+    document.querySelector('.container-buttons').addEventListener('click', (event) => {
+        if (event.target.classList.contains('btn-green')) {
+            event.stopPropagation();
+            deleteAnimation(containerWantToPlay, game);
+        } else if (event.target.classList.contains('btn-red')) {
+            event.stopPropagation();
+            deleteAnimation(containerWantToPlay, ifNot);
+        }
+    });
 }
-game();
 
 
-
-
+wantToPlay();
