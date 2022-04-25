@@ -1,12 +1,19 @@
-# Mein „Rock, Paper, Scissors“ Projekt
+# My “Rock, Paper, Scissors” Project
+![preview gif](./media/prev.gif) 
 
-In diesem Projekt von <em>„The Odin Project“</em> erstelle ich zuerst ein 
-<em>„Schere, Stein, Papier“</em> Script, welches über die Konsole läuft. 
-Später füge ich noch eine Benutzeroberfläche hinzu, 
-diese habe ich mit JavaScript DOM Manipulation erstellt. 
-Anschließen habe ich mich entschlossen, 
-die Oberfläche noch einmal komplett zu überarbeiten.
+## Description
+In this project from “The Odin Project” I create a “Rock, Paper, Scissors” web application.
 
-Es wird gegen einen Computer gespielt und der erste der 5 Punkte erreicht gewinnt. 
-Hier ist einen [Live Preview](tomsoerr.github.io/odin-rock-paper-scissors/) 
-und hier geht es zu meinem nächsten [Projekt](https://github.com/TomSoerr/odin-etch-a-sketch).
+This project has:
+- a slide that asks the user if he wants to play,
+- a slide that defines the rules, 
+- a game slide with buttons for each weapon and a point meter,
+- a computer to play against,
+- and a slide to play again.
+
+The first one to reach 5 points wins.
+
+## Links
+- [Live Preview](tomsoerr.github.io/odin-rock-paper-scissors/)
+- Link to the [Assignment](https://www.theodinproject.com/lessons/foundations-rock-paper-scissors)
+- See my next [Project](https://github.com/TomSoerr/odin-etch-a-sketch)
