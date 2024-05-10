@@ -14,6 +14,7 @@ This project has:
 The first one to reach 5 points wins.
 
 ## Links
+- [Imprint](https://tomsoerr.github.io/#/impressum)
 - [Live Preview](https://tomsoerr.github.io/odin-rock-paper-scissors/)
 - Link to the [Assignment](https://www.theodinproject.com/lessons/foundations-rock-paper-scissors)
 - See my next [Project](https://github.com/TomSoerr/odin-etch-a-sketch)
